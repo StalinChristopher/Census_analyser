@@ -32,6 +32,12 @@ public class CensusAnalyserTeset {
 		int expectedRecord = 8;
 		int actual = csvStateCensus.getData().getStateCensusData().size();
 		Assert.assertEquals(expectedRecord, actual);
+		
+		path = "data/stateCodes.csv";
+		csvStateCensus.loadCSVData(path);
+		expectedRecord = 36;
+		actual = csvStateCensus.getData().getStateCensusData().size();
+		Assert.assertEquals(expectedRecord, actual);
 	}
 
 	@Test
@@ -48,11 +54,15 @@ public class CensusAnalyserTeset {
 
 	@Test
 	public void givenFileNameCorrectButTypeIncorrect() {
-		String path = "data/stateCensus.csv";
+		
 		try {
+			String path = "data/stateCensus.dsv";
+			csvStateCensus.loadCSVData(path);
+			
+			path = "data/stateCodes.dsv";
 			csvStateCensus.loadCSVData(path);
 		} catch (CensusAnalyserException e) {
-			String expected = "Invalid fileType";
+			String expected = "Invalid filetype";
 			String actual = e.getMessage();
 			Assert.assertEquals(expected, actual);
 		}
@@ -62,6 +72,9 @@ public class CensusAnalyserTeset {
     public void throwCustomExceptionIfInvalidDelimitter() {
         try {
             String path = "data/incorrectDelimitter.csv";
+            csvStateCensus.loadCSVData(path);
+            
+            path = "data/stateCodesInvalidDelimitter.csv";
             csvStateCensus.loadCSVData(path);
         } catch (CensusAnalyserException e) {
             String expected = "Invalid Delimitter";
@@ -74,6 +87,9 @@ public class CensusAnalyserTeset {
 	public void throwCustomexceptionIfInvalidHeader() {
 		try {
             String path = "data/incorrectHeaders.csv";
+            csvStateCensus.loadCSVData(path);
+            
+            path = "data/stateCodesInvalidHeaders.csv";
             csvStateCensus.loadCSVData(path);
         } catch (CensusAnalyserException e) {
             String expected = "Invalid header";
